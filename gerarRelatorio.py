@@ -37,13 +37,26 @@ for linha in arquivoLog:
 		break
 
 #Pegando as partes importantes do log do BD, relatando arquivos OK e em falha
+objetosSQL = []
+objSQL = {}
 output = []
 for linha in arquivoLog:
-	if (':' in linha) or ('successfully' in linha):
+	if ('Executing resource:' in linha):
+		objSQL['nomeArquivo'] = linha[linha.rfind('/')+1:]
+	elif (':' in linha) or ('successfully' in linha):
 		if "[sql]" in linha:
 			output.append(linha[12:])
 		else:
 			output.append(linha)
+	# Se numero de sucesso igual total, nao adiciona objSQL na lista
+	if ('SQL statements executed successfully' in linha):
+		numerosExecucao = [int(s) for s in linha.split() if s.isdigit()]
+		if numerosExecucao[0] != numerosExecucao[1]:
+			objSQL['erros'] = output
+			objetosSQL.append(objSQL)
+		objSQL = {}
+		output = []
+varsRelat['objetosSQL'] = objetosSQL
 varsRelat['errosDoBanco'] = output
 
 # e setando os itens
