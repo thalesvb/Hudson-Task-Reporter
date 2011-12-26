@@ -1,0 +1,132 @@
+Iniciado pelo usuário projeto
+Updating svn+ssh://svnsync@10.17.21.82/var/svnSIEP/trunk/docs/bd/scripts@8544 revision: 8544 depth:infinity ignoreExternals: false
+D         sigaPrope6-5.sql
+D         dbsiga_dados_teste.sql
+D         updateCosmo7-1.sql
+D         sigaCosmo7-1.sql
+D         updateCosmo7.sql
+D         sigaCosmo7.sql
+D         updatePrope6-5.sql
+U         update.sql
+A         evolucao_bd
+A         evolucao_bd/SIGA-EDU-4.3-update-4.2.sql
+AU        evolucao_bd/SIGA-EDU-6.2-update-6.1.sql
+A         evolucao_bd/SIGA-EDU-6.3-update-6.2.sql
+A         evolucao_bd/SIGA-EDU-3.0-Auth.sql
+A         evolucao_bd/SIGA-EDU-3.0.sql
+A         evolucao_bd/SIGA-EDU-4.0-Auth.sql
+A         evolucao_bd/SIGA-EDU-4.0.sql
+A         evolucao_bd/SIGA-EDU-4.1-Auth.sql
+A         evolucao_bd/SIGA-EDU-5.0-Auth.sql
+A         evolucao_bd/SIGA-EDU-6.0-Auth.sql
+A         evolucao_bd/SIGA-EDU-5.0.sql
+A         evolucao_bd/SIGA-EDU-4.1.sql
+A         evolucao_bd/SIGA-EDU-4.2-Auth.sql
+A         evolucao_bd/SIGA-EDU-6.0.sql
+A         evolucao_bd/SIGA-EDU-4.2.sql
+A         evolucao_bd/SIGA-EDU-4.3-Auth.sql
+A         evolucao_bd/SIGA-EDU-6.1-Auth.sql
+A         evolucao_bd/SIGA-EDU-4.3.sql
+A         evolucao_bd/SIGA-EDU-6.1.sql
+AU        evolucao_bd/SIGA-EDU-6.2.sql
+A         evolucao_bd/SIGA-EDU-6.3.sql
+A         evolucao_bd/SIGA-EDU-6.1-update-999.sql
+A         evolucao_bd/SIGA-EDU-3.0-update-2.0.sql
+A         evolucao_bd/SIGA-EDU-4.0-update-3.0.sql
+A         evolucao_bd/SIGA-EDU-4.2-update-4.1.sql
+A         evolucao_bd/SIGA-EDU-6.0-update-5.0.sql
+A         evolucao_bd/SIGA-EDU-5.0-update-4.3.sql
+U         sigaPrope.sql
+U         insert_testes.sql
+U         sigaPiata.sql
+U         controleAcesso.sql
+A         updateDesenvolvimento.sql
+A         script_bd.sh
+U         inserts_dev.sql
+U         updatePiata5.sql
+U         sigaKhronos.sql
+U         sigaAuth.sql
+U         update_IFB_Khronos.sql
+U         update_IFC_Khronos.sql
+A         script_bd_7.0.sh
+A         updateDesenvolvimento_7.0.sql
+U         sigaPegasus.sql
+U         sigaDaros.sql
+U         sigaPrope6-2.sql
+U         updatePrope6.sql
+U         sigaPrope6-3.sql
+U         sigaPrope6-4.sql
+At revision 8544
+[workspace] $ ant -file build.xml -Ddb.name=dbsigatrunk HudsonTrunk
+Buildfile: /home/projeto/.hudson/jobs/SIGA-DropCreateTable-Trunk/workspace/build.xml
+
+drop:
+      [sql] Executing commands
+      [sql] 0 rows affected
+      [sql] 1 of 1 SQL statements executed successfully
+
+create:
+      [sql] Executing commands
+      [sql] 0 rows affected
+      [sql] 1 of 1 SQL statements executed successfully
+
+prope:
+      [sql] Executing resource: /home/projeto/.hudson/jobs/SIGA-DropCreateTable-Trunk/workspace/sigaPrope.sql
+      [sql] 9208 of 9208 SQL statements executed successfully
+
+updateDesenvolvimento:
+      [sql] Executing resource: /home/projeto/.hudson/jobs/SIGA-DropCreateTable-Trunk/workspace/updateDesenvolvimento.sql
+      [sql] 230 of 230 SQL statements executed successfully
+
+autenticacao:
+      [sql] Executing resource: /home/projeto/.hudson/jobs/SIGA-DropCreateTable-Trunk/workspace/sigaAuth.sql
+      [sql] 29 of 29 SQL statements executed successfully
+
+inserts_dev:
+      [sql] Executing resource: /home/projeto/.hudson/jobs/SIGA-DropCreateTable-Trunk/workspace/inserts_dev.sql
+      [sql] Failed to execute:  ﻿-------------------------------------------------------------------
+      [sql]    INSERT INTO configuracao_servidor_email VALUES (1,'smtp.gmail.com','siga.eptc.teste@gmail.com','siga2011')
+      [sql] org.postgresql.util.PSQLException: ERRO: erro de sintaxe em ou próximo a "﻿"
+      [sql]   Posição: 2
+      [sql] Failed to execute:  INSERT INTO oferta_vagas (turno_id, curso_id, numero_vagas, periodo_letivo_id, ato_autorizativo_id) VALUES(1, 2, 33, 1, 24)
+      [sql] org.postgresql.util.PSQLException: ERRO: inserção ou atualização em tabela "oferta_vagas" viola restrição de chave estrangeira "ato_autorizativo_oferta_vagas_fk"
+      [sql]   Detalhe: Chave (ato_autorizativo_id)=(24) não está presente na tabela "ato_autorizativo".
+      [sql] Failed to execute:   INSERT INTO data_especial (id, data_inicio, data_fim, tipo_data_especial_id, calendario_academico_id, letivo) VALUES (1, '2009-02-25', '2009-02-25', 2, 1, 2)
+      [sql] org.postgresql.util.PSQLException: ERRO: inserção ou atualização em tabela "data_especial" viola restrição de chave estrangeira "calendario_academico_data_especial_fk"
+      [sql]   Detalhe: Chave (calendario_academico_id)=(1) não está presente na tabela "calendario_academico".
+      [sql] Failed to execute:  INSERT INTO data_especial (id, data_inicio, data_fim, tipo_data_especial_id, calendario_academico_id, letivo) VALUES (2, '2009-02-19', '2009-02-24', 1, 1, 2)
+      [sql] org.postgresql.util.PSQLException: ERRO: inserção ou atualização em tabela "data_especial" viola restrição de chave estrangeira "calendario_academico_data_especial_fk"
+      [sql]   Detalhe: Chave (calendario_academico_id)=(1) não está presente na tabela "calendario_academico".
+      [sql] Failed to execute:  INSERT INTO data_especial (id, data_inicio, data_fim, tipo_data_especial_id, calendario_academico_id, letivo) VALUES (3, '2009-04-09', '2009-04-11', 3, 1, 2)
+      [sql] org.postgresql.util.PSQLException: ERRO: inserção ou atualização em tabela "data_especial" viola restrição de chave estrangeira "calendario_academico_data_especial_fk"
+      [sql]   Detalhe: Chave (calendario_academico_id)=(1) não está presente na tabela "calendario_academico".
+      [sql] Failed to execute:   INSERT INTO data_fixa_calendario_academico (calendario_academico_id, data_fixa_id) VALUES (1, 2)
+      [sql] org.postgresql.util.PSQLException: ERRO: inserção ou atualização em tabela "data_fixa_calendario_academico" viola restrição de chave estrangeira "calendario_academico_data_fixa_cale_acad_fk"
+      [sql]   Detalhe: Chave (calendario_academico_id)=(1) não está presente na tabela "calendario_academico".
+      [sql] Failed to execute:  INSERT INTO data_fixa_calendario_academico (calendario_academico_id, data_fixa_id) VALUES (1, 1)
+      [sql] org.postgresql.util.PSQLException: ERRO: inserção ou atualização em tabela "data_fixa_calendario_academico" viola restrição de chave estrangeira "calendario_academico_data_fixa_cale_acad_fk"
+      [sql]   Detalhe: Chave (calendario_academico_id)=(1) não está presente na tabela "calendario_academico".
+      [sql] Failed to execute:  INSERT INTO data_fixa_calendario_academico (calendario_academico_id, data_fixa_id) VALUES (1, 10)
+      [sql] org.postgresql.util.PSQLException: ERRO: inserção ou atualização em tabela "data_fixa_calendario_academico" viola restrição de chave estrangeira "calendario_academico_data_fixa_cale_acad_fk"
+      [sql]   Detalhe: Chave (calendario_academico_id)=(1) não está presente na tabela "calendario_academico".
+      [sql] Failed to execute:   INSERT INTO ato_autorizativo_calendario_academico (calendario_academico_id, ato_autorizativo_id) VALUES (1, 22)
+      [sql] org.postgresql.util.PSQLException: ERRO: inserção ou atualização em tabela "ato_autorizativo_calendario_academico" viola restrição de chave estrangeira "calendario_academico_ato_auto_calend_acad_fk"
+      [sql]   Detalhe: Chave (calendario_academico_id)=(1) não está presente na tabela "calendario_academico".
+      [sql] Failed to execute:   INSERT INTO relatorio_estagio (id,relatorio_estagio_nome_arquivo, total_semanas, total_horas, data_entrega, avaliado, tipo_relatorio_comum_estagio_id,relatorio_estagio,plano_estagio_id) VALUES (1,'Relatorio 1',400, 20, '2010-10-11', 'f', 1,'xxx',1)
+      [sql] org.postgresql.util.PSQLException: ERRO: coluna "total_semanas" da relação "relatorio_estagio" não existe
+      [sql]   Posição: 69
+      [sql] Failed to execute:  INSERT INTO relatorio_estagio (id,relatorio_estagio_nome_arquivo, total_semanas, total_horas, data_entrega, avaliado, tipo_relatorio_comum_estagio_id,relatorio_estagio,plano_estagio_id) VALUES (2,'Relatorio 2',400, 20, '2010-08-01', 't', 2,'xxx',2)
+      [sql] org.postgresql.util.PSQLException: ERRO: coluna "total_semanas" da relação "relatorio_estagio" não existe
+      [sql]   Posição: 68
+      [sql] Failed to execute:  INSERT INTO relatorio_estagio (id,relatorio_estagio_nome_arquivo, total_semanas, total_horas, data_entrega, avaliado, tipo_relatorio_comum_estagio_id,relatorio_estagio,plano_estagio_id) VALUES (3,'Relatorio 3',400, 20, '2010-02-12', 'f', 1,'xxx',3)
+      [sql] org.postgresql.util.PSQLException: ERRO: coluna "total_semanas" da relação "relatorio_estagio" não existe
+      [sql]   Posição: 68
+      [sql] 773 of 785 SQL statements executed successfully
+
+HudsonTrunk:
+
+BUILD SUCCESSFUL
+Total time: 14 seconds
+Disparando uma nova construção de SIGA-SeleniumTrunk #14
+[DEBUG] Skipping watched dependency update; build not configured with trigger: SIGA-DropCreateTable-Trunk #11
+Finished: SUCCESS

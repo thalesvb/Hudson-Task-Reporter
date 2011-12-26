@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<annotation-array>
+	<bug>
+		<message>DLS: Dead store to conjunto in org.sigaept.edu.negocio.ejb.ManterMatriculaEJB.inserir(Matricula)</message>
+		<priority>NORMAL</priority>
+		<key>574</key>
+		<lineRanges>
+			<range>
+				<start>188</start>
+				<end>188</end>
+			</range>
+		</lineRanges>
+		<primaryLineNumber>188</primaryLineNumber>
+		<fileName>/home/projeto/.hudson/jobs/SIGA-BuildTrunk/workspace/sigaept-edu-ejb/ejbModule/org/sigaept/edu/negocio/ejb/ManterMatriculaEJB.java</fileName>
+		<moduleName></moduleName>
+		<packageName>org.sigaept.edu.negocio.ejb</packageName>
+		<category>STYLE</category>
+		<type>DLS_DEAD_LOCAL_STORE</type>
+		<contextHashCode>575</contextHashCode>
+		<origin>findbugs</origin>
+		<pathName>sigaept-edu-ejb/ejbModule/org/sigaept/edu/negocio/ejb</pathName>
+		<tooltip></tooltip>
+		<instanceHash>e201133c015b3f1b45b2d6a4fe094614</instanceHash>
+		<ageInDays>0</ageInDays>
+		<firstSeen>1321977768912</firstSeen>
+		<reviewCount>0</reviewCount>
+		<notAProblem>false</notAProblem>
+		<inCloud>true</inCloud>
+		<shouldBeInCloud>false</shouldBeInCloud>
+		<rank>17</rank>
+  </bug> 
+</annotation-array>
