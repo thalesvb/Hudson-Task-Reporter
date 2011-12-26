@@ -13,7 +13,7 @@
 from appy.pod.renderer import Renderer
 import simplexmlparse
 
-
+strLogSQL = 'consoleSQL.log'
 #Remover arquivos no output, se existir
 import os
 try:
@@ -25,10 +25,18 @@ except OSError:
 # Este arquivo fica localizado na pasta do ultimoBuild
 # ~/.hudson/jobs/NomeDoJob/builds/NumeroUltimoJob/log
 # O NumeroUltimoJob pode ser conseguido lendo o arquivo (NomeDoJob/nextBuildNumber) e subtraindo 1.
-arquivoLog = open('consoleSQL.log')
+arquivoLog = open(strLogSQL)
 
 #Dicionario com os itens que serao passado para o relatório
 varsRelat={}
+
+# Pegar hora da execucao do teste, fazendo inferencia pela hora da modificacao do arquivo de log
+import os.path
+import datetime
+dataHora = datetime.datetime.fromtimestamp(os.path.getmtime(strLogSQL))
+
+varsRelat['dataExecucao']=dataHora
+
 
 # Pegar o numero da revisão
 for linha in arquivoLog:
@@ -60,7 +68,6 @@ varsRelat['objetosSQL'] = objetosSQL
 varsRelat['errosDoBanco'] = output
 
 # e setando os itens
-varsRelat['dataExecucao']='14/12/2011 às 13:13'
 
 # cria o renderizador, passando o dicionário, e então renderiza pro arquivo de saída, usando o template
 renderer = Renderer('templates/templateBD.odt', varsRelat, 'output/relatorioBD.odt')
