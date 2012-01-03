@@ -75,7 +75,7 @@ renderer.run()
 
 
 
-'''
+
 # Relatorio do findbugs
 # o arquivo que contem os erros é o findbugs-warnings.xml localizado em
 # ~/.hudson/jobs/SIGA-BuildTrunk/builds/33/findbugs-warnings.xml
@@ -94,7 +94,7 @@ for b in bugs:
 	bug['priority'] = b.getElementsByTagName('priority')[0].firstChild.data
 	bug['lineRanges'] = {'start': b.getElementsByTagName('lineRanges')[0].getElementsByTagName('start')[0].firstChild.data, 'end': b.getElementsByTagName('lineRanges')[0].getElementsByTagName('end')[0].firstChild.data}
 	bug['fileName'] = b.getElementsByTagName('fileName')[0].firstChild.data
-	bug['moduleName'] = b.getElementsByTagName('moduleName')[0].firstChild.data
+#	bug['moduleName'] = b.getElementsByTagName('moduleName')[0].firstChild.data
 	bug['packageName'] = b.getElementsByTagName('packageName')[0].firstChild.data
 	bug['category'] = b.getElementsByTagName('category')[0].firstChild.data
 	bug['type'] = b.getElementsByTagName('type')[0].firstChild.data
@@ -106,7 +106,10 @@ for b in bugs:
 # ordenada por prioridade
 # http://stygianvision.net/updates/python-sort-list-object-dictionary-multiple-key/
 # http://stackoverflow.com/questions/72899/in-python-how-do-i-sort-a-list-of-dictionaries-by-values-of-the-dictionary
-listaSorted = sorted(listaBugs, key = lambda b: b['priority'])
-'''
+listaSorted = sorted(listaBugs, key = lambda b: (b['priority'], b['category'], b['rank'], b['message']))
+
+for i in listaSorted:
+	print i['priority'], ' <> ', i['category'], ' <> ', i['type'], ' <> ', i['rank']
+
 
 # Arquivo com resultado do selenium: ~/.hudson/jobs/SIGA-SeleniumTrunk/workspace/junit/TEST-org.sigaept.edu.teste.versoes.TSSigaEdu.xml
