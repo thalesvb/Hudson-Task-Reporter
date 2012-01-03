@@ -1,0 +1,6 @@
+This project aims to make management reports from Hudson-CI tasks logs using the
+Appy Framework. I chose this framework because of Python Open Document, don't
+have any external dependency and is Python, language that Hudson accepts scripts
+to be invoked.
+It's still in early stages, so the majority of artifacts is on my native 
+language. By the time i'll translate them to English.
