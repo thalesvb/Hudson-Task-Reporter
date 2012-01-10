@@ -30,18 +30,16 @@ try:
 except OSError:
 	pass
 
-# Abre o arquivo de log, para fazer o parse no python
-# Este arquivo fica localizado na pasta do ultimoBuild
-# ~/.hudson/jobs/NomeDoJob/builds/NumeroUltimoJob/log
-# O NumeroUltimoJob pode ser conseguido lendo o arquivo (NomeDoJob/nextBuildNumber) e subtraindo 1.
+# Open the log file, to parse it on Python.
+# This file is located on lastJob folder
+# ~/.hudson/jobs/JobName/builds/lastJob/log
+# lastJob number can be obtained reading the file 'JobName/nextBuildNumber' and sub 1.
 arquivoLog = open(strLogSQL)
 
-# Pegar hora da execucao do teste, fazendo inferencia pela hora da modificacao do arquivo de log
+# Get the hour of test execution, by the modification time of log file.
 import os.path
 import datetime
 dataHora = datetime.datetime.fromtimestamp(os.path.getmtime(strLogSQL))
-
-
 
 
 # Get revision number
@@ -58,7 +56,7 @@ varsFindBugs['revision'] = revisionNumber
 varsBDReport['dataExecucao'] = dataHora
 varsFindBugs['dataExecucao'] = dataHora
 
-#Pegando as partes importantes do log do BD, relatando arquivos OK e em falha
+# Database report: parse the log file
 objetosSQL = []
 objSQL = {}
 output = []
@@ -70,7 +68,7 @@ for linha in arquivoLog:
 			output.append(linha[12:])
 		else:
 			output.append(linha)
-	# Se numero de sucesso igual total, nao adiciona objSQL na lista
+	# Only show in report if number of successful statements is not equals of total statements
 	if ('SQL statements executed successfully' in linha):
 		numerosExecucao = [int(s) for s in linha.split() if s.isdigit()]
 		if numerosExecucao[0] != numerosExecucao[1]:
@@ -81,16 +79,12 @@ for linha in arquivoLog:
 varsBDReport['objetosSQL'] = objetosSQL
 varsBDReport['errosDoBanco'] = output
 
-# e setando os itens
-
-# cria o renderizador, passando o dicionário, e então renderiza pro arquivo de saída, usando o template
+# Create the renderer, passing the dict, and run it. More details on POD docs.
 renderer = Renderer('templates/templateBD.odt', varsBDReport, 'output/relatorioBD.odt')
 renderer.run()
 
 
-
-
-# Relatorio do findbugs
+# FindBugs Report
 # o arquivo que contem os erros é o findbugs-warnings.xml localizado em
 # ~/.hudson/jobs/SIGA-BuildTrunk/builds/33/findbugs-warnings.xml
 
@@ -99,9 +93,10 @@ renderer.run()
 #  http://www.evanjones.ca/software/simplexmlparse.html
 
 from xml.dom import minidom
-# Lista de objetos DOM bug
+# Object list of DOM elements, each one representing a bug.
 bugs = minidom.parse('findbugs-warnings.xml').getElementsByTagName('bug')
 listaBugs = []
+# Transform DOM elements in Python dicts
 for b in bugs:
 	bug = {}
 	bug['message'] = b.getElementsByTagName('message')[0].firstChild.data
@@ -117,7 +112,7 @@ for b in bugs:
 	
 	listaBugs.append(bug)
 	
-# ordenada por prioridade
+# Sort by priority, highest rank, category, message, allow future groups on report.
 # http://stygianvision.net/updates/python-sort-list-object-dictionary-multiple-key/
 # http://stackoverflow.com/questions/72899/in-python-how-do-i-sort-a-list-of-dictionaries-by-values-of-the-dictionary
 listaBugs = sorted(listaBugs, key = lambda b: (b['priority'], -int(b['rank']), b['category'], b['message']))
