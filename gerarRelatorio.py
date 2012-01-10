@@ -13,11 +13,20 @@
 from appy.pod.renderer import Renderer
 import simplexmlparse
 
+# Global variables: used alongside the code.
+projectName = 'WYSIWYG Project'
+revisionNumber = None
 strLogSQL = 'consoleSQL.log'
+
+#Dicionario com os itens que serao passado para o relatório
+varsBDReport = {}
+varsFindBugs = {}
+
 #Remover arquivos no output, se existir
 import os
 try:
 	os.remove('output/relatorioBD.odt')
+	os.remove('output/relatorioFindBugs.odt')
 except OSError:
 	pass
 
@@ -27,22 +36,27 @@ except OSError:
 # O NumeroUltimoJob pode ser conseguido lendo o arquivo (NomeDoJob/nextBuildNumber) e subtraindo 1.
 arquivoLog = open(strLogSQL)
 
-#Dicionario com os itens que serao passado para o relatório
-varsRelat={}
-
 # Pegar hora da execucao do teste, fazendo inferencia pela hora da modificacao do arquivo de log
 import os.path
 import datetime
 dataHora = datetime.datetime.fromtimestamp(os.path.getmtime(strLogSQL))
 
-varsRelat['dataExecucao']=dataHora
 
 
-# Pegar o numero da revisão
+
+# Get revision number
 for linha in arquivoLog:
 	if linha.startswith('At revision'):
-		varsRelat['numeroRevisao'] = linha[12:]
+		revisionNumber = linha[12:]
 		break
+
+# Default vars that have on any report
+varsBDReport['projectName'] = projectName
+varsFindBugs['projectName'] = projectName
+varsBDReport['revision'] = revisionNumber
+varsFindBugs['revision'] = revisionNumber
+varsBDReport['dataExecucao'] = dataHora
+varsFindBugs['dataExecucao'] = dataHora
 
 #Pegando as partes importantes do log do BD, relatando arquivos OK e em falha
 objetosSQL = []
@@ -64,13 +78,13 @@ for linha in arquivoLog:
 			objetosSQL.append(objSQL)
 		objSQL = {}
 		output = []
-varsRelat['objetosSQL'] = objetosSQL
-varsRelat['errosDoBanco'] = output
+varsBDReport['objetosSQL'] = objetosSQL
+varsBDReport['errosDoBanco'] = output
 
 # e setando os itens
 
 # cria o renderizador, passando o dicionário, e então renderiza pro arquivo de saída, usando o template
-renderer = Renderer('templates/templateBD.odt', varsRelat, 'output/relatorioBD.odt')
+renderer = Renderer('templates/templateBD.odt', varsBDReport, 'output/relatorioBD.odt')
 renderer.run()
 
 
@@ -92,7 +106,7 @@ for b in bugs:
 	bug = {}
 	bug['message'] = b.getElementsByTagName('message')[0].firstChild.data
 	bug['priority'] = b.getElementsByTagName('priority')[0].firstChild.data
-	bug['lineRanges'] = {'start': b.getElementsByTagName('lineRanges')[0].getElementsByTagName('start')[0].firstChild.data, 'end': b.getElementsByTagName('lineRanges')[0].getElementsByTagName('end')[0].firstChild.data}
+	bug['lineRange'] = {'start': b.getElementsByTagName('lineRanges')[0].getElementsByTagName('start')[0].firstChild.data, 'end': b.getElementsByTagName('lineRanges')[0].getElementsByTagName('end')[0].firstChild.data}
 	bug['fileName'] = b.getElementsByTagName('fileName')[0].firstChild.data
 #	bug['moduleName'] = b.getElementsByTagName('moduleName')[0].firstChild.data
 	bug['packageName'] = b.getElementsByTagName('packageName')[0].firstChild.data
@@ -106,10 +120,14 @@ for b in bugs:
 # ordenada por prioridade
 # http://stygianvision.net/updates/python-sort-list-object-dictionary-multiple-key/
 # http://stackoverflow.com/questions/72899/in-python-how-do-i-sort-a-list-of-dictionaries-by-values-of-the-dictionary
-listaSorted = sorted(listaBugs, key = lambda b: (b['priority'], b['category'], b['rank'], b['message']))
+listaBugs = sorted(listaBugs, key = lambda b: (b['priority'], -int(b['rank']), b['category'], b['message']))
 
-for i in listaSorted:
-	print i['priority'], ' <> ', i['category'], ' <> ', i['type'], ' <> ', i['rank']
+#for i in listaBugs:
+#	print i['priority'], ' <> ', i['category'], ' <> ', i['type'], ' <> ', i['rank']
 
+varsFindBugs['bugs'] = listaBugs
+
+renderer = Renderer('templates/templateFindBugs.odt', varsFindBugs, 'output/relatorioFindBugs.odt')
+renderer.run()
 
 # Arquivo com resultado do selenium: ~/.hudson/jobs/SIGA-SeleniumTrunk/workspace/junit/TEST-org.sigaept.edu.teste.versoes.TSSigaEdu.xml
