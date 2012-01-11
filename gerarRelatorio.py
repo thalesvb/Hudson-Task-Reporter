@@ -11,7 +11,6 @@
 #  http://appyframework.org/podWritingAdvancedTemplates.html
 
 from appy.pod.renderer import Renderer
-import simplexmlparse
 
 # Global variables: used alongside the code.
 projectName = 'WYSIWYG Project'
