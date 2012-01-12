@@ -64,6 +64,9 @@ for line in logFile:
 		objSQL['nomeArquivo'] = line[line.rfind('/')+1:]
 	elif (':' in line) or ('successfully' in line):
 		if "[sql]" in line:
+			# New line to easy reading of report, in the current template.
+			if 'Failed to execute:' in line:
+				output.append('\n')
 			output.append(line[12:])
 		else:
 			output.append(line)
